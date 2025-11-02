@@ -1,17 +1,45 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-function CreatePostPage() {
+function UpdatePostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(`http://localhost:3001/api/posts/${id}`);
+
+        if (res.status === 500) {
+          throw new Error(
+            `Error ${res.status} - $${res.error} - ${res.message}`
+          );
+        }
+
+        if (res.status !== 200) {
+          throw new Error(`Error ${res.status} - ${res.message}`);
+        }
+
+        const data = await res.json();
+
+        setTitle(data.title);
+        setContent(data.content);
+
+        document.title = `Editing post ${String(data.id)} - ${data.title}`;
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3001/api/posts/", {
-        method: "POST",
+      const res = await fetch(`http://localhost:3001/api/posts/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -24,11 +52,12 @@ function CreatePostPage() {
         throw new Error(`Error ${res.status} - ${data.error} - ${data.message}`);
       }
 
-      if (res.status !== 201) {
+      if (res.status !== 200) {
         throw new Error(`Error ${res.status} - ${data.message}`);
       }
 
       const newId = data.id;
+      window.alert(`Post ${newId} updated all right`);
 
       navigate(`/posts/${newId}`);
     } catch (error) {
@@ -46,7 +75,7 @@ function CreatePostPage() {
             type="text"
             id="title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value.trim())}
             required
           />
         </div>
@@ -55,14 +84,14 @@ function CreatePostPage() {
           <textarea
             id="content"
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => setContent(e.target.value.trim())}
             required
           />
         </div>
-        <button type="submit">Create Post</button>
+        <button type="submit">Save</button>
       </form>
     </div>
   );
 }
 
-export default CreatePostPage;
+export default UpdatePostPage;

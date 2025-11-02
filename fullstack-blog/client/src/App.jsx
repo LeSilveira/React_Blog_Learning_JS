@@ -7,6 +7,7 @@ import HeaderDefault from './components/HeaderDefault'
 import FooterDefault from './components/FooterDefault'
 import PostPage from './pages/PostPage'
 import CreatePostPage from './pages/CreatePostPage';
+import UpdatePostPage from './pages/UpdatePostPage';
 
 
 function App() {
@@ -14,20 +15,23 @@ function App() {
     <div>
       <HeaderDefault />
       <Routes>
-        {/* A route for the home page */}
+        {/* Route for the home page */}
         <Route path="/" element={<HomePage />} />
 
-        {/* A route for the posts page */}
+        {/* Route for the posts page */}
         <Route path="/posts" element={<PostsPage />} />
 
-        {/* A route for the vite default page */}
+        {/* Route for the vite default page */}
         <Route path="/vite" element={<VitePage />} />
+
+        {/* Route for post creation page */}
+        <Route path="/posts/create" element={<CreatePostPage />} />
 
         {/* Route for the posts */}
         <Route path="/posts/:id" element={<PostPage />} />
 
-        {/* Route for post creation page */}
-        <Route path="/posts/create" element={<CreatePostPage />} />
+        {/* Route for post updating page */}
+        <Route path="/posts/update/:id" element={<UpdatePostPage />} />
 
       </Routes>
       <FooterDefault />
