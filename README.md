@@ -1,6 +1,6 @@
 # React-Blog Learning 📖
 
-💡 A simple repository with code developed to learn some basic concepts of React, using some JS tools in a fullstack blog-themed application.  
+💡 A simple repository with code developed to learn some basic concepts of React, using some JS tools in a fullstack blog-themed application.  💡It's the same application as in my React_Blog_Learning_TS repository, but without TS and other features I added in there later.
 
 ## Currently used tools 🧰
 ### 🔧 Vite - Build, configure and run.  
